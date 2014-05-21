@@ -24,4 +24,4 @@ RUN apt-get install -y dovecot-mysql dovecot-imapd postfix-mysql mysql-client
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-EXPOSE 80
+#EXPOSE 80
