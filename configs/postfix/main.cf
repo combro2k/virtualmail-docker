@@ -26,8 +26,8 @@ inet_interfaces = all
 inet_protocols = all
 smtp_bind_address6 = 2a02:2308::6dc:0:1
 smtp_bind_address = 178.21.116.70
-mydomain = e-combined.nl
-myhostname = mail.e-combined.nl 
+mydomain = {{domain}}
+myhostname = mail.$mydomain
 mynetworks = 127.0.0.0/24
 mydestination = $myhostname, 
         localhost.$mydomain,

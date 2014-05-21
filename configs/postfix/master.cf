@@ -15,34 +15,17 @@ localhost:smtp      inet  n       -       n       -       -       smtpd
 	-o myhostname=localhost
 #	-o smtpd_use_tls=no
 
-2a02:2308::6dc:0:1:submission inet n      -       n       -       -       smtpd
-  -o myhostname=mail.e-combined.nl
-  -o smtpd_etrn_restrictions=reject
-  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
-  -o smtp_tls_security_level=encrypt
-#  -o smtpd_use_tls=yes
-
-178.21.116.70:smtp      inet  n       -       n       -       -       smtpd 
+smtp      inet  n       -       n       -       -       smtpd 
 	-o myhostname=mail.e-combined.nl
-  -o smtp_tls_security_level=encrypt
+	-o smtp_tls_security_level=encrypt
 #	-o smtpd_use_tls=yes
 
-178.21.116.93:smtp	inet n	-	n	-	-	smtpd
-	-o myhostname=mail2.e-combined.nl
-#	-o smtpd_use_tls=no
-
-178.21.116.70:submission inet n      -       n       -       -       smtpd
+submission inet n      -       n       -       -       smtpd
 	-o myhostname=mail.e-combined.nl
-  -o smtpd_etrn_restrictions=reject
-  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
-  -o smtp_tls_security_level=encrypt
-# -o smtpd_use_tls=yes
-
-178.21.116.93:submission inet n      -       n       -       -       smtpd
-  -o myhostname=mail2.e-combined.nl
-  -o smtpd_etrn_restrictions=reject
-  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
-#	-o stmpd_use_tls=no
+	-o smtpd_etrn_restrictions=reject
+	-o smtpd_client_restrictions=permit_sasl_authenticated,reject
+	-o smtp_tls_security_level=encrypt
+# 	-o smtpd_use_tls=yes
 
 pickup    fifo  n       -       n       60      1       pickup
   -o content_filter= 
