@@ -1,6 +1,6 @@
 hosts = localhost
 user = postfix
-password = thepasswordidesire
+password = {{pwd}}
 dbname = postfix
 table = alias
 select_field = goto
