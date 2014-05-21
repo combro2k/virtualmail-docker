@@ -19,12 +19,10 @@ CMD ["/sbin/my_init"]
 RUN apt-get update
 RUN apt-get install -y dovecot-mysql dovecot-imapd postfix-mysql mysql-client procmail fetchmail amavisd-milter spamassassin postfix-gld mysql-server pwgen
 
-RUN mkdir -p /var/vmail
+RUN mkdir -p /var/vmail /data
 RUN groupadd vmail && useradd vmail -g vmail -s /sbin/nologin -d /var/vmail && chmod 0777 /var/vmail
 
-RUN if [ !-e /root/mysqlpass ]; then pwgen -1 24 -B > /root/mysqlpass && mysqladmin password `cat /root/mysqlpass` ; fi
-
-VOLUME ["/etc/postfix", "/var/vmail", "/etc/dovecot"]
+VOLUME ["/etc/postfix", "/var/vmail", "/etc/dovecot", "/data"]
 
 ADD configs/dovecot /etc/dovecot
 ADD configs/postfix /etc/postfix
