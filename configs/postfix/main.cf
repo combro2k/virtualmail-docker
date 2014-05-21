@@ -47,7 +47,7 @@ procmail_destination_recipient_limit = 1
 virtual_alias_maps = mysql:/etc/postfix/mysql-virtual_alias_maps.cf,
                      hash:/usr/share/mailman/data/virtual-mailman
 virtual_gid_maps = static:89
-virtual_mailbox_base = /home/vmail
+virtual_mailbox_base = /var/vmail
 virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual_domains_maps.cf
 
 virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual_mailbox_maps.cf
