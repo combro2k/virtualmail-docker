@@ -1,0 +1,37 @@
+postfixadmin    postfixadmin/app-password-confirm       password
+postfixadmin    postfixadmin/mysql/admin-pass   password
+postfixadmin    postfixadmin/mysql/app-pass     password
+postfixadmin    postfixadmin/password-confirm   password
+postfixadmin    postfixadmin/pgsql/app-pass     password
+postfixadmin    postfixadmin/pgsql/admin-pass   password
+postfixadmin    postfixadmin/pgsql/authmethod-user      select
+postfixadmin    postfixadmin/mysql/method       select  unix socket
+postfixadmin    postfixadmin/upgrade-error      select  abort
+postfixadmin    postfixadmin/db/basepath        string
+postfixadmin    postfixadmin/internal/reconfiguring     boolean false
+postfixadmin    postfixadmin/passwords-do-not-match     error
+postfixadmin    postfixadmin/missing-db-package-error   select  abort
+postfixadmin    postfixadmin/mysql/admin-user   string  root
+postfixadmin    postfixadmin/reconfigure-webserver      multiselect     apache2
+postfixadmin    postfixadmin/db/app-user        string  postfixadmin
+postfixadmin    postfixadmin/pgsql/authmethod-admin     select  ident
+postfixadmin    postfixadmin/pgsql/manualconf   note
+postfixadmin    postfixadmin/pgsql/method       select  unix socket
+postfixadmin    postfixadmin/remove-error       select  abort
+postfixadmin    postfixadmin/remote/host        select
+postfixadmin    postfixadmin/pgsql/admin-user   string  postgres
+postfixadmin    postfixadmin/pgsql/no-empty-passwords   error
+postfixadmin    postfixadmin/db/dbname  string  postfixadmin
+postfixadmin    postfixadmin/remote/port        string
+postfixadmin    postfixadmin/database-type      select  mysql
+postfixadmin    postfixadmin/install-error      select  ignore
+postfixadmin    postfixadmin/dbconfig-reinstall boolean false
+postfixadmin    postfixadmin/dbconfig-upgrade   boolean true
+postfixadmin    postfixadmin/dbconfig-remove    boolean
+postfixadmin    postfixadmin/internal/skip-preseed      boolean false
+postfixadmin    postfixadmin/dbconfig-install   boolean true
+postfixadmin    postfixadmin/pgsql/changeconf   boolean false
+postfixadmin    postfixadmin/remote/newhost     string
+postfixadmin    postfixadmin/purge      boolean false
+postfixadmin    postfixadmin/upgrade-backup     boolean true
+~                                                            
