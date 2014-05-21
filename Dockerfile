@@ -26,7 +26,10 @@ VOLUME ["/etc/postfix", "/var/vmail", "/etc/dovecot", "/data"]
 
 ADD configs/dovecot /etc/dovecot
 ADD configs/postfix /etc/postfix
-ADD configs/dovecot-mysql.conf /etc/dovecot-mysql.conf
+
+# Add init scripts
+ADD my_init.d /etc/my_init.d
+RUN chmod +x /etc/my_init.d/*
 
 #RUN sed -i.bak 's/myhostname = mail.e-combined.nl/myhostname = test/g' /etc/postfix/main.cf
 
