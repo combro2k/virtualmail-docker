@@ -5,6 +5,8 @@ set -e
 
 if [[ ! -e /data/mysqlpass ]]; then
 	echo "No mysql password set creating one"
+	echo "Creating databases first"
+	mysql < /root/postfixadmin-mysql.sql
 	pwgen -1 24 -B > /data/mysqlpass && mysqladmin password `cat /data/mysqlpass`
 fi
 
