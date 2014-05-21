@@ -17,11 +17,13 @@ CMD ["/sbin/my_init"]
 
 # ...put your own build instructions here...
 RUN apt-get update
-RUN apt-get install -y dovecot-mysql dovecot-imapd postfix-mysql mysql-client
+RUN apt-get install -y dovecot-mysql dovecot-imapd postfix-mysql mysql-client procmail fetchmail
 
-
+ADD configs/dovecot /etc/dovecot
+ADD configs/postfix /etc/postfix
+ADD configs/dovecot-mysql.conf /etc/dovecot-mysql.conf
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-#EXPOSE 80
+EXPOSE 22
