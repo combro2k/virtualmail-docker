@@ -1,0 +1,147 @@
+#
+# Postfix master process configuration file.  For details on the format
+# of the file, see the Postfix master(5) manual page.
+#
+# ==========================================================================
+# service type  private unpriv  chroot  wakeup  maxproc command + args
+#               (yes)   (yes)   (yes)   (never) (100)
+# ==========================================================================
+2a02:2308::6dc:0:1:smtp      inet  n       -       n       -       -       smtpd
+ -o myhostname=mail.e-combined.nl
+ -o smtp_tls_security_level=encrypt
+ -o smtpd_use_tls=yes
+
+localhost:smtp      inet  n       -       n       -       -       smtpd
+	-o myhostname=localhost
+#	-o smtpd_use_tls=no
+
+2a02:2308::6dc:0:1:submission inet n      -       n       -       -       smtpd
+  -o myhostname=mail.e-combined.nl
+  -o smtpd_etrn_restrictions=reject
+  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+  -o smtp_tls_security_level=encrypt
+#  -o smtpd_use_tls=yes
+
+178.21.116.70:smtp      inet  n       -       n       -       -       smtpd 
+	-o myhostname=mail.e-combined.nl
+  -o smtp_tls_security_level=encrypt
+#	-o smtpd_use_tls=yes
+
+178.21.116.93:smtp	inet n	-	n	-	-	smtpd
+	-o myhostname=mail2.e-combined.nl
+#	-o smtpd_use_tls=no
+
+178.21.116.70:submission inet n      -       n       -       -       smtpd
+	-o myhostname=mail.e-combined.nl
+  -o smtpd_etrn_restrictions=reject
+  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+  -o smtp_tls_security_level=encrypt
+# -o smtpd_use_tls=yes
+
+178.21.116.93:submission inet n      -       n       -       -       smtpd
+  -o myhostname=mail2.e-combined.nl
+  -o smtpd_etrn_restrictions=reject
+  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+#	-o stmpd_use_tls=no
+
+pickup    fifo  n       -       n       60      1       pickup
+  -o content_filter= 
+  -o receive_override_options=no_header_body_checks
+
+cleanup   unix  n       -       n       -       0       cleanup
+
+qmgr      fifo  n       -       n       300     1       qmgr
+
+tlsmgr    unix  -       -       n       1000?   1       tlsmgr
+
+rewrite   unix  -       -       n       -       -       trivial-rewrite
+
+bounce    unix  -       -       n       -       0       bounce
+
+defer     unix  -       -       n       -       0       bounce
+
+trace     unix  -       -       n       -       0       bounce
+
+verify    unix  -       -       n       -       1       verify
+
+flush     unix  n       -       n       1000?   0       flush
+
+proxymap  unix  -       -       n       -       -       proxymap
+
+smtp      unix  -       -       n       -       -       smtp
+
+relay     unix  -       -       n       -       -       smtp
+        -o fallback_relay=
+
+showq     unix  n       -       n       -       -       showq
+
+error     unix  -       -       n       -       -       error
+
+discard   unix  -       -       n       -       -       discard
+
+local     unix  -       n       n       -       -       local
+
+virtual   unix  -       n       n       -       -       virtual
+
+lmtp      unix  -       -       n       -       -       lmtp
+  -o disable_dns_lookups=yes
+  -o lmtp_send_xforward_command=yes
+
+anvil     unix  -       -       n       -       1       anvil
+
+scache    unix  -       -       n       -       1       scache
+
+procmail unix   -       n       n       -       -       pipe
+  -o flags=DRhuq user=vmail argv=/usr/bin/procmail -t -o SENDER=${sender} -d ${recipient} -m USER=${user} EXTENSION=${extension} DOMAIN=${nexthop} /etc/postfix/procmailrc.common
+
+maildrop  unix  -       n       n       -       -       pipe
+  flags=DRhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}
+
+old-cyrus unix  -       n       n       -       -       pipe
+  flags=R user=cyrus argv=/usr/lib/cyrus-imapd/deliver -e -m ${extension} ${user}
+
+cyrus     unix  -       n       n       -       -       pipe
+  user=cyrus argv=/usr/lib/cyrus-imapd/deliver -r ${sender} -m ${extension} ${user}
+
+uucp      unix  -       n       n       -       -       pipe
+  flags=Fqhu user=uucp argv=uux -r -n -z -a$sender - $nexthop!rmail ($recipient)
+
+ifmail    unix  -       n       n       -       -       pipe
+  flags=F user=ftn argv=/usr/lib/ifmail/ifmail -r $nexthop ($recipient)
+
+bsmtp     unix  -       n       n       -       -       pipe
+  flags=Fq. user=foo argv=/usr/local/sbin/bsmtp -f $sender $nexthop $recipient
+
+amavisfeed unix    -       -       n        -      10     lmtp
+    -o lmtp_data_done_timeout=1200
+    -o lmtp_send_xforward_command=yes
+    -o disable_dns_lookups=yes
+    -o max_use=10
+
+127.0.0.1:10025 inet n    -       n       -       -     smtpd
+    -o content_filter=
+    -o smtpd_delay_reject=no
+    -o smtpd_client_restrictions=permit_mynetworks,reject
+    -o smtpd_helo_restrictions=
+    -o smtpd_sender_restrictions=
+    -o smtpd_recipient_restrictions=permit_mynetworks,reject
+    -o smtpd_data_restrictions=reject_unauth_pipelining
+    -o smtpd_end_of_data_restrictions=
+    -o smtpd_restriction_classes=
+    -o mynetworks=127.0.0.0/8
+    -o smtpd_error_sleep_time=0
+    -o smtpd_soft_error_limit=1001
+    -o smtpd_hard_error_limit=1000
+    -o smtpd_client_connection_count_limit=0
+    -o smtpd_client_connection_rate_limit=0
+    -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks,no_milters,no_address_mappings
+    -o local_header_rewrite_clients=
+    -o smtpd_milters=
+    -o local_recipient_maps=
+    -o relay_recipient_maps=
+retry     unix  -       -       n       -       -       error
+proxywrite unix -       -       n       -       1       proxymap
+#smtp      inet  n       -       n       -       1       postscreen
+#smtpd     pass  -       -       n       -       -       smtpd
+#dnsblog   unix  -       -       n       -       0       dnsblog
+#tlsproxy  unix  -       -       n       -       0       tlsproxy

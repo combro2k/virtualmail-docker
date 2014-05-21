@@ -1,0 +1,7 @@
+hosts = localhost
+user = postfix
+password = thepasswordidesire
+dbname = postfix
+table = mailbox
+select_field = maildir
+where_field = username

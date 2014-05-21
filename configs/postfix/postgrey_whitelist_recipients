@@ -1,0 +1,17 @@
+# postgrey whitelist for mail recipients
+# --------------------------------------
+# put this file in /etc/postfix or specify its path
+# with --whitelist-recipients=xxx
+
+postmaster@
+abuse@
+@vitaphone.nl
+@brunel.net
+hans@vmaurik.nl
+ferry@vmaurik.nl
+rina@vmaurik.nl
+@wooninc.nl
+@blocklist.de
+@steampowered.com
+@telfort.nl
+@telfortglasvezel.nl

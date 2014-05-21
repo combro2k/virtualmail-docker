@@ -1,0 +1,127 @@
+# postfix config file
+
+# uncomment for debugging if needed
+soft_bounce=no
+
+# postfix main
+mail_owner = postfix
+setgid_group = postdrop
+delay_warning_time = 4
+#smtpd_delay_reject = no
+
+# postfix paths
+html_directory = no
+command_directory = /usr/sbin
+daemon_directory = /usr/libexec/postfix
+queue_directory = /var/spool/postfix
+sendmail_path = /usr/sbin/sendmail.postfix
+newaliases_path = /usr/bin/newaliases.postfix
+mailq_path = /usr/bin/mailq.postfix
+manpage_directory = /usr/share/man
+sample_directory = /usr/share/doc/postfix-2.3.3/samples
+readme_directory = /usr/share/doc/postfix-2.3.3/README_FILES
+
+# network settings
+inet_interfaces = all
+inet_protocols = all
+smtp_bind_address6 = 2a02:2308::6dc:0:1
+smtp_bind_address = 178.21.116.70
+mydomain = e-combined.nl
+myhostname = mail.e-combined.nl 
+mynetworks = 127.0.0.0/24
+mydestination = $myhostname, 
+        localhost.$mydomain,
+        localhost 
+relay_domains = $mydestination
+
+# mail delivery
+recipient_delimiter = + 
+
+# mappings
+alias_maps = hash:/etc/aliases
+ hash:/usr/share/mailman/data/aliases
+alias_database = hash:/etc/aliases
+
+# virtual setup
+procmail_destination_recipient_limit = 1
+virtual_alias_maps = mysql:/etc/postfix/mysql-virtual_alias_maps.cf,
+                     hash:/usr/share/mailman/data/virtual-mailman
+virtual_gid_maps = static:89
+virtual_mailbox_base = /home/vmail
+virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual_domains_maps.cf
+
+virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual_mailbox_maps.cf
+virtual_minimum_uid = 89
+virtual_transport = procmail
+virtual_uid_maps = static:89
+
+# debugging
+debug_peer_level = 2
+debugger_command =
+         PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin
+         xxgdb $daemon_directory/$process_name $process_id & sleep 5
+
+# authentication
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = $mydomain
+broken_sasl_auth_clients = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+#smtpd_sasl_path = postfix
+
+# tls config
+smtp_use_tls = yes
+smtpd_use_tls = yes 
+smtp_tls_note_starttls_offer = yes 
+smtpd_tls_key_file = /etc/postfix/ssl/default.key
+smtpd_tls_cert_file = /etc/postfix/ssl/default.crt
+smtpd_tls_CAfile = /etc/postfix/ssl/ca-bundle.crt
+smtpd_tls_loglevel = 1
+smtpd_tls_received_header = yes
+smtpd_tls_session_cache_timeout = 3600s
+tls_random_source = dev:/dev/urandom
+smtp_tls_security_level = may
+
+# rules restrictions 
+smtpd_helo_restrictions = permit_sasl_authenticated,
+	permit_mynetworks,
+  reject_non_fqdn_hostname,
+	reject_invalid_hostname,
+	permit
+
+smtpd_sender_restrictions = permit_sasl_authenticated,
+	reject_non_fqdn_sender, 
+  reject_unknown_sender_domain
+
+smtpd_recipient_restrictions = permit_sasl_authenticated,
+  check_sender_access hash:/etc/postfix/sender_access,
+  reject_unauth_destination,
+  reject_non_fqdn_recipient,
+  reject_non_fqdn_hostname, 
+  reject_unknown_recipient_domain,
+  reject_unknown_sender_domain,
+  reject_rbl_client zen.spamhaus.org,
+  reject_rbl_client dul.dnsbl.sorbs.net,
+  reject_rbl_client bl.spamcop.net,
+  reject_rbl_client b.barracudacentral.org,
+  reject_rbl_client psbl.surriel.com,
+  reject_rbl_client ix.dnsbl.manitu.net,
+  check_policy_service unix:postgrey/socket,
+  permit
+
+smtpd_helo_required = yes
+
+unknown_local_recipient_reject_code = 550
+disable_vrfy_command = yes
+smtpd_error_sleep_time = 1s
+smtpd_soft_error_limit = 10
+smtpd_hard_error_limit = 20
+
+# Custom
+content_filter=amavisfeed:[127.0.0.1]:10024
+smtpd_milters = unix:/var/run/dkim-milter/dkim.sock
+non_smtpd_milters = unix:/var/run/dkim-milter/dkim.sock
+message_size_limit = 20480000
+owner_request_special = no
+data_directory = /var/lib/postfix

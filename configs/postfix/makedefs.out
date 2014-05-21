@@ -1,0 +1,15 @@
+# Do not edit -- this file documents how Postfix was built for your machine.
+SYSTYPE	= LINUX3
+AR	= ar
+ARFL	= rv
+RANLIB	= ranlib
+SYSLIBS	= -L/root/repos/openssl-1.0.1f -L/root/repos/openssl-1.0.1f/engines -L/usr/lib64 -L/usr/lib64/mysql -lmysqlclient -lz -lm -lsasl2 -lssl -lcrypto -lpcre -ldb -lnsl -lresolv
+CC	= gcc $(WARN) -I. -I../../include -DHAS_MYSQL -DHAS_SSL -DUSE_TLS -DUSE_SASL_AUTH -I/root/repos/openssl-1.0.1f -I/usr/include -I/usr/include/mysql -I/usr/include/sasl -DHAS_PCRE -DSNAPSHOT
+OPT	= -O
+DEBUG	= -g
+AWK	= awk
+STRCASE = 
+EXPORT	= AUXLIBS='-L/root/repos/openssl-1.0.1f -L/root/repos/openssl-1.0.1f/engines -L/usr/lib64 -L/usr/lib64/mysql -lmysqlclient -lz -lm -lsasl2 -lssl -lcrypto -lpcre' CCARGS='-I. -I../../include -DHAS_MYSQL -DHAS_SSL -DUSE_TLS -DUSE_SASL_AUTH -I/root/repos/openssl-1.0.1f -I/usr/include -I/usr/include/mysql -I/usr/include/sasl -DHAS_PCRE -DSNAPSHOT' OPT='-O' DEBUG='-g'
+WARN	= -Wall -Wno-comment -Wformat -Wimplicit -Wmissing-prototypes \
+	-Wparentheses -Wstrict-prototypes -Wswitch -Wuninitialized \
+	-Wunused -Wno-missing-braces
