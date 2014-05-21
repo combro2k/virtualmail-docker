@@ -18,6 +18,10 @@ CMD ["/sbin/my_init"]
 # ...put your own build instructions here...
 RUN apt-get update
 RUN apt-get install -y dovecot-mysql dovecot-imapd postfix-mysql mysql-client procmail fetchmail amavisd-milter spamassassin postfix-gld mysql-server pwgen
+RUN apt-get install -y apache2 apache2-bin apache2-data dbconfig-common libapache2-mod-php5 libapr1 libaprutil1 libaprutil1-dbd-sqlite3 libaprutil1-ldap libc-client2007e libxml2 lsof mlock php5-cli php5-common php5-imap php5-json php5-mysql php5-readline sgml-base wwwconfig-common xml-core
+
+RUN curl http://sourceforge.net/projects/postfixadmin/files/postfixadmin/postfixadmin-2.91/postfixadmin_2.91-1_all.deb/download -L > /root/postfixadmin.deb
+RUN dpkg -i /root/postfixadmin.deb
 
 RUN mkdir -p /var/vmail /data
 RUN groupadd vmail && useradd vmail -g vmail -s /sbin/nologin -d /var/vmail && chmod 0777 /var/vmail
@@ -26,7 +30,6 @@ VOLUME ["/etc/postfix", "/var/vmail", "/etc/dovecot", "/data"]
 
 ADD configs/dovecot /etc/dovecot
 ADD configs/postfix /etc/postfix
-ADD sql/postfixadmin-mysql.sql /root/postfixadmin-mysql.sql
 
 # Add init scripts
 ADD my_init.d /etc/my_init.d
