@@ -1,7 +1,0 @@
-hosts = localhost
-user = postfix
-password = {{pwd}}
-dbname = postfix
-table = mailbox
-select_field = maildir
-where_field = username
