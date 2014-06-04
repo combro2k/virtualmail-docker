@@ -2,7 +2,7 @@
 # sure you lock down to a specific version, not to `latest`!
 # See https://github.com/phusion/baseimage-docker/blob/master/Changelog.md for
 # a list of version numbers.
-FROM combro2k/virtualmail
+FROM combro2k/virtualmail:latest
 
 # Set correct environment variables.
 ENV HOME /root
@@ -15,20 +15,9 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-# ...put your own build instructions here...
-
-VOLUME ["/etc/postfix", "/var/vmail", "/etc/dovecot", "/data"]
-
-ADD configs/dovecot /etc/dovecot
-ADD configs/postfix /etc/postfix
-
-# Add init scripts
-ADD my_init.d /etc/my_init.d
-RUN chmod +x /etc/my_init.d/*
-
-#RUN sed -i.bak 's/myhostname = mail.e-combined.nl/myhostname = test/g' /etc/postfix/main.cf
+VOLUME ["/var/vmail", "/data", "/var/lib/mysql", '/etc/postfix', '/etc/amavis', '/etc/dovecot']
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-EXPOSE 22
+EXPOSE 22 80 25 110 143 465 587 993 995

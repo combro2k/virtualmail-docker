@@ -12,7 +12,7 @@ delay_warning_time = 4
 # postfix paths
 html_directory = no
 command_directory = /usr/sbin
-daemon_directory = /usr/libexec/postfix
+daemon_directory = /usr/lib/postfix
 queue_directory = /var/spool/postfix
 sendmail_path = /usr/sbin/sendmail.postfix
 newaliases_path = /usr/bin/newaliases.postfix
@@ -26,7 +26,7 @@ inet_interfaces = all
 inet_protocols = all
 smtp_bind_address6 = 2a02:2308::6dc:0:1
 smtp_bind_address = 178.21.116.70
-mydomain = {{domain}}
+mydomain = e-combined.nl
 myhostname = mail.$mydomain
 mynetworks = 127.0.0.0/24
 mydestination = $myhostname, 
@@ -71,17 +71,17 @@ smtpd_sasl_path = private/auth
 #smtpd_sasl_path = postfix
 
 # tls config
-smtp_use_tls = yes
-smtpd_use_tls = yes 
-smtp_tls_note_starttls_offer = yes 
-smtpd_tls_key_file = /etc/postfix/ssl/default.key
-smtpd_tls_cert_file = /etc/postfix/ssl/default.crt
-smtpd_tls_CAfile = /etc/postfix/ssl/ca-bundle.crt
-smtpd_tls_loglevel = 1
-smtpd_tls_received_header = yes
-smtpd_tls_session_cache_timeout = 3600s
-tls_random_source = dev:/dev/urandom
-smtp_tls_security_level = may
+#smtp_use_tls = yes
+#smtpd_use_tls = yes 
+#smtp_tls_note_starttls_offer = yes 
+#smtpd_tls_key_file = /etc/postfix/ssl/default.key
+#smtpd_tls_cert_file = /etc/postfix/ssl/default.crt
+#smtpd_tls_CAfile = /etc/postfix/ssl/ca-bundle.crt
+#smtpd_tls_loglevel = 1
+#smtpd_tls_received_header = yes
+#smtpd_tls_session_cache_timeout = 3600s
+#tls_random_source = dev:/dev/urandom
+#smtp_tls_security_level = may
 
 # rules restrictions 
 smtpd_helo_restrictions = permit_sasl_authenticated,
